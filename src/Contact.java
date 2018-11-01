@@ -1,4 +1,4 @@
-public class Contact  {
+public class Contact implements Comparable<Contact> {
     public String name;
     public String surname;
     public PhoneNumber phoneNumber;
@@ -39,22 +39,28 @@ public class Contact  {
 
     @Override
     public String toString() {
-        return "Contact{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", phoneNumber=" + phoneNumber +
-                '}';
+        return "Contact name is  : " + name + '\'' +
+                " surname is " + surname + '\'' +
+                ", phoneNumber is : " + phoneNumber ;
     }
 
-    public int compareTo(Contact contact)  {
-        int nameToCompare = this.name.compareTo(contact.name);
-        if (nameToCompare==0){
+    @Override
+    public int compareTo(Contact contact) {
+        int nameToCompare = this.name.compareTo ( contact.name );
+        if (nameToCompare != 0) {
             return nameToCompare;
         }
-        int surnameToCompare = this.surname.compareTo(contact.surname);
-        if (surnameToCompare == 0){
+        int surnameToCompare = this.surname.compareTo ( contact.surname );
+        if (surnameToCompare != 0) {
             return surnameToCompare;
         }
-        return nameToCompare;
+        return this.phoneNumber.compareTo ( contact.phoneNumber );
+
+    }
+
+    public String getFirstLetter() {
+        String firstLetter = String.valueOf ( name.charAt ( 0 ) );
+
+        return firstLetter ;
     }
 }

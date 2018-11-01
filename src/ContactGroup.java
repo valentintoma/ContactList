@@ -1,9 +1,18 @@
 import java.util.Objects;
 import java.util.TreeSet;
 
-public   class ContactGroup   {
+public class ContactGroup {
 
-    private  TreeSet<Contact> contacts = new TreeSet<> (  );
+    private TreeSet<Contact> contacts = new TreeSet<> ();
+
+    public void removeContact(Contact contact) {
+
+        for (Contact contactFromList : contacts) {
+            if (contactFromList.equals ( contact )) {
+                contacts.remove ( contactFromList );
+            }
+        }
+    }
 
 
     @Override
@@ -21,5 +30,18 @@ public   class ContactGroup   {
 
     }
 
+    public void add(Contact contact) {
+        contacts.add ( contact );
+    }
 
+    public void remove(Contact contact) {
+        contacts.remove ( contact );
+    }
+
+    @Override
+    public String toString() {
+        return "ContactGroup{" +
+                "contacts=" + contacts +
+                '}';
+    }
 }

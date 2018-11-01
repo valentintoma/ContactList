@@ -1,4 +1,6 @@
-public class PhoneNumber {
+import java.util.Comparator;
+
+public class PhoneNumber implements Comparable<PhoneNumber> {
 
     private String prefix;
     private String number;
@@ -26,9 +28,14 @@ public class PhoneNumber {
 
     @Override
     public String toString() {
-        return "PhoneNumber{" +
-                "prefix='" + prefix + '\'' +
-                ", number='" + number + '\'' +
-                '}';
+        return
+                "prefix " + prefix + '\'' + number + '\'' ;
+    }
+
+    @Override
+    public int compareTo(PhoneNumber contact) {
+        return Comparator.comparing ( PhoneNumber::getPrefix )
+                .thenComparing ( PhoneNumber::getNumber )
+                .compare ( this, contact );
     }
 }
