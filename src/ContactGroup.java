@@ -14,6 +14,10 @@ public class ContactGroup {
         }
     }
 
+    public TreeSet<Contact> getContacts() {
+        return contacts;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -34,7 +38,7 @@ public class ContactGroup {
         contacts.add ( contact );
     }
 
-    public void remove(Contact contact) {
+    public   void remove(Contact contact) {
         contacts.remove ( contact );
     }
 

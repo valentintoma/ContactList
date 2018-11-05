@@ -43,7 +43,7 @@ public class Agenda {
     }
 
 
-    public void showAgenda() {
+    public   void showAgenda() {
 
         System.out.println ( agenda.entrySet ()
                 .stream ()
@@ -51,6 +51,7 @@ public class Agenda {
                 .collect ( Collectors.joining () ) );
 
     }
+
 
 
     public void removeContact() {
@@ -64,10 +65,13 @@ public class Agenda {
 
 
     public void searchContact() {
-        agenda.entrySet ()
-                .stream ()
-                .map (  )
+        Contact contact = createContacts ();
+        String firstLetter = String.valueOf ( contact.name.charAt ( 0 ) );
+        ContactGroup contactGroup = agenda.get ( firstLetter );
 
+        if ( contactGroup != null){
+            contactGroup.getContacts ().stream ().filter ( contact1 ->  contact.getName ().equalsIgnoreCase ( C ) )
+        }
 
 
     }
