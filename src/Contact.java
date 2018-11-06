@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Contact implements Comparable<Contact> {
     public String name;
     public String surname;
@@ -56,6 +58,22 @@ public class Contact implements Comparable<Contact> {
         }
         return this.phoneNumber.compareTo ( contact.phoneNumber );
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contact)) return false;
+        Contact contact = (Contact) o;
+        return Objects.equals ( name, contact.name ) &&
+                Objects.equals ( surname, contact.surname ) &&
+                Objects.equals ( phoneNumber, contact.phoneNumber );
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash ( name, surname, phoneNumber );
     }
 
     public String getFirstLetter() {
