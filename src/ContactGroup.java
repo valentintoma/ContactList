@@ -31,21 +31,19 @@ public class ContactGroup {
     public int hashCode() {
 
         return Objects.hash ( contacts );
-
     }
 
     public void add(Contact contact) {
         contacts.add ( contact );
     }
 
-    public   void remove(Contact contact) {
+    public void remove(Contact contact) {
         contacts.remove ( contact );
     }
 
     @Override
     public String toString() {
-        return "ContactGroup{" +
-                "contacts=" + contacts +
-                '}';
+        return " for ContactGroup " + contacts
+                ;
     }
 }

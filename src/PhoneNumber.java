@@ -2,10 +2,20 @@ import java.util.Comparator;
 
 public class PhoneNumber implements Comparable<PhoneNumber> {
 
+    public static final String DEFAULT_PREFIX = "+40";
+
     private String prefix;
     private String number;
 
+    public PhoneNumber(String number) {
+        this.prefix = DEFAULT_PREFIX;
+        this.number = number;
+    }
+
     public PhoneNumber(String prefix, String number) {
+        if (prefix.isEmpty ()) {
+            prefix = DEFAULT_PREFIX;
+        }
         this.prefix = prefix;
         this.number = number;
     }
@@ -29,7 +39,7 @@ public class PhoneNumber implements Comparable<PhoneNumber> {
     @Override
     public String toString() {
         return
-                "prefix " + prefix + '\'' + number + '\'' ;
+                ",  Phone number is : " + prefix + '\'' + number + '\'';
     }
 
     @Override

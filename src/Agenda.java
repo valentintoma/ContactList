@@ -12,71 +12,6 @@ public class Agenda {
     //edit methods
     //deletion methods
 
-    public void showMenu() {
-        System.out.println ( "Agenda functions :" );
-        System.out.println ( "1.Show Contacts" );
-        System.out.println ( "2.Add Contact" );
-        System.out.println ( "3.Remove Contact" );
-        System.out.println ( "4.Search Contact " );
-        System.out.println ( "5.Edit Contact" );
-
-        readMenuAnswer ();
-    }
-
-    public void readMenuAnswer() {
-        System.out.println ( "Please input your answer" );
-        int answer = sc.nextInt ();
-
-        menuChoice ( answer );
-    }
-
-    public void menuChoice(int i) {
-
-        switch (i) {
-
-            case 1:
-                showAgenda ();
-                showPrevoiusMenu ();
-                break;
-
-            case 2:
-                //  addContacts ();
-                showPrevoiusMenu ();
-                break;
-
-            case 3:
-                removeContact ();
-                showPrevoiusMenu ();
-                break;
-
-            case 4:
-                System.out.println ( "Type your first name : " );
-                String firstName = sc.nextLine ();
-                System.out.println ( "Type your last name : " );
-                String lastName = sc.nextLine ();
-                searchContact ( firstName, lastName );
-                showPrevoiusMenu ();
-
-                break;
-
-            case 5:
-
-
-                break;
-
-        }
-
-    }
-
-    public void showPrevoiusMenu() {
-        System.out.println ( " " );
-        System.out.println ( "2. Back to menu ? Press 2." );
-        int ans = sc.nextInt ();
-        if (ans == 2) {
-            showMenu ();
-        }
-    }
-
 
     public Contact createContact() {
         System.out.println ( "Type the phone nr" );
@@ -90,9 +25,15 @@ public class Agenda {
 
     }
 
+    public void addContact() throws NameNotValidException {
 
-    public void addContacts() throws NameNotValidException {
         Contact contact = createContact ();
+
+        addContact ( contact );
+    }
+
+
+    public void addContact(Contact contact) throws NameNotValidException {
         if (contact.getName () == null || contact.getName ().isEmpty ()) {
             throw new NameNotValidException ( "Name can not be null or empty " );
         }
@@ -113,7 +54,7 @@ public class Agenda {
 
         System.out.println ( agenda.entrySet ()
                 .stream ()
-                .map ( entry -> "Key is :" + entry.getKey () + " Value" + entry.getValue () )
+                .map ( entry -> "Key is : " + entry.getKey () + " Value " + entry.getValue () )
                 .collect ( Collectors.joining () ) );
 
     }
@@ -129,16 +70,16 @@ public class Agenda {
     }
 
 
-    public List<Contact> searchContact(String name, String lastName) {
-        ContactGroup contactGroup = agenda.get ( String.valueOf ( name.charAt ( 0 ) ) );
+    public List<Contact> searchContact(Contact contactToSearch) {
+        ContactGroup contactGroup = agenda.get ( String.valueOf ( contactToSearch.name.charAt ( 0 ) ) );
 
         List<Contact> foundContacts = new ArrayList<> ();
 
         if (contactGroup != null) {
             foundContacts.addAll ( contactGroup.getContacts ()
                     .stream ()
-                    .filter ( contact -> contact.getName ().equalsIgnoreCase ( name )
-                            && contact.getSurname ().equalsIgnoreCase ( lastName ) )
+                    .filter ( contact -> contact.getName ().equalsIgnoreCase ( contact.getName () )
+                            && contact.getSurname ().equalsIgnoreCase ( contact.getSurname () ) )
                     .collect ( Collectors.toList () ) );
 
         }
@@ -146,26 +87,36 @@ public class Agenda {
 
         return foundContacts;
     }
-//    }
-//
+
+    public Contact editContact(Contact original, Contact newContact) {
+        ContactGroup contactGroup = agenda.get ( String.valueOf ( original.name.charAt ( 0 ) ) );
+
+        if (contactGroup != null) {
+            searchContact ( original )
+                    .stream ()
+                    .forEach ( contact -> original.setName ( newContact.getName () ) );
+
+        }
+
+    }
+}
 //    public void editContact(String firstName, String lastName) {
-//        String firstLetter = String.valueOf (firstName.charAt ( 0 ) );
-//        ContactGroup contactGroup = agenda.get ( firstLetter );
-//
+//        ContactGroup contactGroup = agenda.get ( String.valueOf ( firstName.charAt ( 0 ) ) );
 //        //trebuie sa modific contactul din contact grup dupa care sa ii dau replace pe agenda
 //
-//        contactGroup.getContacts ().stream ().forEach ( contact -> contact.getName ().replaceAll ( contact.getName () , firstName ) );
-//
 //        if (contactGroup != null) {
+//            searchContact ( firstName, lastName )
+//                    .stream ()
+//                    .forEach ( contact -> contact.setName ( sc.next () ) && contact.setSurname ( sc.next ()) );
 //
-//
-//
-//          agenda.replace ( firstLetter , contactGroup )
 //
 //        }
 
 
 }
+
+
+
 
 
 

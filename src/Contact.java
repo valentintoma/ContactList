@@ -41,9 +41,9 @@ public class Contact implements Comparable<Contact> {
 
     @Override
     public String toString() {
-        return "Contact name is  : " + name + '\'' +
-                " surname is " + surname + '\'' +
-                ", phoneNumber is : " + phoneNumber ;
+        return "Contact name is: " + name +
+                " surname is:  " + surname +
+               phoneNumber + "\n";
     }
 
     @Override
@@ -79,6 +79,6 @@ public class Contact implements Comparable<Contact> {
     public String getFirstLetter() {
         String firstLetter = String.valueOf ( name.charAt ( 0 ) );
 
-        return firstLetter ;
+        return firstLetter;
     }
 }
