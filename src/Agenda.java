@@ -25,7 +25,7 @@ public class Agenda {
 
     }
 
-    public void addContact() throws NameNotValidException {
+    public void addContact() throws NameNotValidException , PhoneNotValidException {
 
         Contact contact = createContact ();
 
@@ -33,9 +33,13 @@ public class Agenda {
     }
 
 
-    public void addContact(Contact contact) throws NameNotValidException {
+    public void addContact(Contact contact) throws NameNotValidException, PhoneNotValidException {
         if (contact.getName () == null || contact.getName ().isEmpty ()) {
             throw new NameNotValidException ( "Name can not be null or empty " );
+        }
+
+        if(contact.getPhoneNumber () == null || contact.getPhoneNumber ().toString ().isEmpty ()){
+            throw  new PhoneNotValidException ( "Phone number can not be null or empty ");
         }
 
         String firstLetter = String.valueOf ( contact.name.charAt ( 0 ) );
@@ -88,17 +92,17 @@ public class Agenda {
         return foundContacts;
     }
 
-    public Contact editContact(Contact original, Contact newContact) {
-        ContactGroup contactGroup = agenda.get ( String.valueOf ( original.name.charAt ( 0 ) ) );
-
-        if (contactGroup != null) {
-            searchContact ( original )
-                    .stream ()
-                    .forEach ( contact -> original.setName ( newContact.getName () ) );
-
-        }
-
-    }
+//    public Contact editContact(Contact original, Contact newContact) {
+//        ContactGroup contactGroup = agenda.get ( String.valueOf ( original.name.charAt ( 0 ) ) );
+//
+//        if (contactGroup != null) {
+//            searchContact ( original )
+//                    .stream ()
+//                    .forEach ( contact -> original.setName ( newContact.getName () ) );
+//
+//        }
+//
+//    }
 }
 //    public void editContact(String firstName, String lastName) {
 //        ContactGroup contactGroup = agenda.get ( String.valueOf ( firstName.charAt ( 0 ) ) );
@@ -113,7 +117,7 @@ public class Agenda {
 //        }
 
 
-}
+
 
 
 

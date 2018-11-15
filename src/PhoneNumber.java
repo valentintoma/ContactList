@@ -36,10 +36,14 @@ public class PhoneNumber implements Comparable<PhoneNumber> {
         this.number = number;
     }
 
+    public String getCompletePhoneNumber() {
+        return prefix + number;
+    }
+
     @Override
     public String toString() {
         return
-                ",  Phone number is : " + prefix + '\'' + number + '\'';
+                ",  Phone number is : " + prefix  + number ;
     }
 
     @Override

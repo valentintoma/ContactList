@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,13 +10,15 @@ public class ContactTest {
     public static final String PHONE_NUMBER = "PHONE_NUMBER";
     public static final String PREFIX = "PREFIX";
 
-    Scanner sc = new Scanner ( System.in );
+    public static Scanner sc = new Scanner ( System.in );
 
 
     public static void main(String[] args) {
 
+        Agenda agenda = new Agenda ();
+        // inputContact ();
+        menuChoice ( agenda );
 
-        inputContact ();
 
     }
 
@@ -48,12 +48,13 @@ public class ContactTest {
                             case LAST_NAME:
                                 header.put ( LAST_NAME, i );
                                 break;
-                            case PHONE_NUMBER:
-                                header.put ( PHONE_NUMBER, i );
-                                break;
                             case PREFIX:
                                 header.put ( PREFIX, i );
                                 break;
+                            case PHONE_NUMBER:
+                                header.put ( PHONE_NUMBER, i );
+                                break;
+
                         }
                     }
 
@@ -61,9 +62,20 @@ public class ContactTest {
                     continue;
                 }
 
-                firstName = csvLine[header.get ( FIRST_NAME )];
-                lastName = csvLine[header.get ( LAST_NAME )];
-                phoneNumber = csvLine[header.get ( PHONE_NUMBER )];
+
+                if (header.get ( FIRST_NAME ) != null) {
+                    firstName = csvLine[header.get ( FIRST_NAME )];  //keys e first name si returneaaza indexul
+
+                }
+                if (header.get ( LAST_NAME ) != null) {
+                    lastName = csvLine[header.get ( LAST_NAME )];
+
+
+                }
+
+                if (header.get ( LAST_NAME ) != null) {
+                    phoneNumber = csvLine[header.get ( PHONE_NUMBER )];
+                }
 
                 // the prefix is optional, we add it only if it is in the file
                 if (header.get ( PREFIX ) != null) {
@@ -80,7 +92,7 @@ public class ContactTest {
         return contactList;
     }
 
-    public static void inputContact() {
+    public static void inputContact() throws PhoneNotValidException, NameNotValidException {
         Agenda agenda = new Agenda ();
         List<Contact> contacts = readContactsFromFile ();
         try {
@@ -95,44 +107,66 @@ public class ContactTest {
 
         agenda.showAgenda ();
 
+
     }
 
+    public static void writeFile(Contact contact) {
 
 
+        try (BufferedWriter writer = new BufferedWriter ( new FileWriter ( "agenda.csv", true ) )) {
 
+            String stringArr = contact.getName () + "," + contact.getSurname () + "," + contact.getPhoneNumber ().getCompletePhoneNumber ();
+            // writer.newLine ();
+//            writer.append ( getStandardHeader() );
+            writer.newLine ();
+            writer.append ( stringArr );
 
-    public void showMenu() {
+        } catch (IOException ex) {
+            System.out.println ( "Failed to write on file " + ex );
+        }
+    }
+
+    public static void showMenu() {
         System.out.println ( "Agenda functions :" );
         System.out.println ( "1.Show Contacts" );
         System.out.println ( "2.Add Contact" );
         System.out.println ( "3.Remove Contact" );
         System.out.println ( "4.Search Contact " );
         System.out.println ( "5.Edit Contact" );
+        System.out.println ( "6.Backup" );
+
 
     }
 
 
+    public static void menuChoice(Agenda agenda) {
 
-    public void menuChoice(Agenda agenda) {
+        showMenu ();
 
-        System.out.println("Select an action from below:");
-        int number = sc.nextInt();
+        System.out.println ( "Select an action from below:" );
+        int number = sc.nextInt ();
 
         switch (number) {
 
             case 1:
-                agenda.showAgenda ();
-                showPrevoiusMenu ();
+                try {
+                    inputContact ();
+                } catch (NameNotValidException | PhoneNotValidException exceptions) {
+                    System.out.println ( exceptions.getMessage () );
+                }
+                showPrevoiusMenu ( agenda );
                 break;
 
             case 2:
-                agenda.addContact ( agenda.createContact () );
-                showPrevoiusMenu ();
+
+
+                writeFile ( agenda.createContact () );
+                showPrevoiusMenu ( agenda );
                 break;
 
             case 3:
                 agenda.removeContact ();
-                showPrevoiusMenu ();
+                showPrevoiusMenu ( agenda );
                 break;
 
             case 4:
@@ -140,30 +174,39 @@ public class ContactTest {
                 String firstName = sc.nextLine ();
                 System.out.println ( "Type your last name : " );
                 String lastName = sc.nextLine ();
-                agenda.searchContact ( agenda.createContact ());
-                showPrevoiusMenu ();
+                agenda.searchContact ( agenda.createContact () );
+                showPrevoiusMenu ( agenda );
 
                 break;
 
             case 5:
 
 
+
                 break;
 
         }
 
     }
 
-    public void showPrevoiusMenu() {
+    public static void showPrevoiusMenu(Agenda agenda) {
         System.out.println ( " " );
         System.out.println ( "2. Back to menu ? Press 2." );
         int ans = sc.nextInt ();
         if (ans == 2) {
-            showMenu ();
+            menuChoice ( agenda );
         }
+    }
+
+
+
+    private static String getStandardHeader() {
+        return FIRST_NAME + "," + LAST_NAME + "," + PHONE_NUMBER + "," + PREFIX;
     }
 }
 
+
+// DE DAT DELETE
 
 // pt afisare Agend - > merg  prin entry map, apoi din Contact group -> treeSet  cu entry
 // pt editare cu (Contact  original , Contact editing )
